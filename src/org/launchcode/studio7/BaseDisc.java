@@ -7,16 +7,14 @@ public abstract class BaseDisc implements OpticalDisc {
     private final String title;
     private final String author;
     private final String discType;
-    private final int speed;
-    private final int capacity;
+    private final String productionCo;
     private ArrayList<File> files = new ArrayList<>();
 
-    public BaseDisc(String title, String author, String discType) {
+    public BaseDisc(String title, String author, String discType, String productionCo) {
         this.title = title;
         this.author = author;
         this.discType = discType;
-        this.speed = SPEEDS.get(discType);
-        this.capacity = CAPACITIES.get(discType);
+        this.productionCo = productionCo;
     }
 
     public String getTitle() {
@@ -31,12 +29,8 @@ public abstract class BaseDisc implements OpticalDisc {
         return discType;
     }
 
-    public int getSpeed() {
-        return speed;
-    }
-
-    public int getCapacity() {
-        return capacity;
+    public String getProductionCo() {
+        return productionCo;
     }
 
     public ArrayList<File> getFiles() {
@@ -44,11 +38,13 @@ public abstract class BaseDisc implements OpticalDisc {
     }
 
     public String toString() {
-        return "\n" + discType + ":" +
+        return "\n***** " + discType + " *****" +
                 "\nTitle: " + title +
                 "\nAuthor: " + author +
-                "\nSpeed: " + speed + " RPM" +
-                "\nStorage Capacity: " + capacity;
+                "\nProduction Company: " + productionCo +
+                "\nSpeed: " + SPEEDS.get(discType) + " RPM" +
+                "\nStorage Capacity: " + CAPACITIES.get(discType) +
+                "\nSpace Available: " + getSpaceAvailable();
     }
 
     public int getSpaceUsed() {
@@ -59,10 +55,25 @@ public abstract class BaseDisc implements OpticalDisc {
         return total;
     }
 
+    public int getSpaceAvailable() {
+        return CAPACITIES.get(discType) - getSpaceUsed();
+    }
+
+    public String getFormattedFiles(String header) {
+        StringBuilder fileList = new StringBuilder();
+        if (files.size() > 0) {
+            fileList.append("\n").append(header).append(":");
+            for (File file : files) {
+                fileList.append("\n\t").append(file);
+            }
+        }
+        return fileList.toString();
+    }
+
     @Override
     public void spinDisc() {
-        System.out.printf("The " + discType + " " + title +
-                " is spinning at " + speed + " RPM.");
+        System.out.printf("\nThe " + discType + " " + title +
+                " is spinning at " + SPEEDS.get(discType) + " RPM.\n");
     }
 
     @Override
@@ -72,12 +83,5 @@ public abstract class BaseDisc implements OpticalDisc {
     public abstract void runFile(File file);
 
     @Override
-    public void writeData(File file) {
-        if (getSpaceUsed() + file.getSize() > capacity) {
-            System.out.println("There is not enough space on the " +
-                    discType + " for " + file.getName());
-        } else {
-            files.add(file);
-        }
-    }
+    public abstract void writeData(File file);
 }
