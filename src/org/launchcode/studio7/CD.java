@@ -3,7 +3,8 @@ package org.launchcode.studio7;
 public class CD extends BaseDisc {
 
     // TODO: Implement your custom interface.
-    // Note: I actually implemented it on BaseDisc
+    // Note: I actually implemented it on BaseDisc, but this is probably not
+    // the best approach given the scope bonus missions
 
     // TODO: Determine which fields, methods, and constructors can be extended from the base class and which ones
     //  need to be declared separately.
