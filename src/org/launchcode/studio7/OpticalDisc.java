@@ -5,12 +5,12 @@ import java.util.Map;
 
 public interface OpticalDisc {
 
-    static final Map<String, Integer> CAPACITIES = new HashMap<>() {{
+    Map<String, Integer> CAPACITIES = new HashMap<>() {{
         put("CD", 700);
         put("DVD", 17000);
     }};
 
-    static final Map<String, Integer> SPEEDS = new HashMap<>() {{
+    Map<String, Integer> SPEEDS = new HashMap<>() {{
         put("CD", 400);
         put("DVD", 1200);
     }};
